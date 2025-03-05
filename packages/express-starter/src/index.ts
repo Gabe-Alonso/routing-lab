@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { MongoClient } from "mongodb";
-import {ImageProvider, Image} from "./ImageProvider";
+import {registerImageRoutes} from "./routes/images";
 
 dotenv.config(); // Read the .env file in the current working directory, and load values into process.env.
 const PORT = process.env.PORT || 3000;
@@ -24,21 +24,13 @@ async function setUpServer() {
     const app = express();
 
     app.use(express.static(staticDir));
+    app.use(express.json());
 
     app.get("/hello", (req: Request, res: Response) => {
         res.send("Hello, World");
     });
 
-    app.get("/api/images", async (req: Request, res: Response) => { // Marking the callback as async
-        try {
-            const imageProvider = new ImageProvider(mongoClient);
-            const images: Image[] = await imageProvider.getAllImages();
-            res.json(images);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("Internal Server Error");
-        }
-    });
+    registerImageRoutes(app, mongoClient);
 
     app.get("*", (req: Request, res: Response) => {
         console.log("none of the routes above me were matched");
