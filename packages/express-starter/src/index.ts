@@ -1,10 +1,13 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+dotenv.config();
 import path from "path";
 import { MongoClient } from "mongodb";
 import {registerImageRoutes} from "./routes/images";
+import {registerAuthRoutes, verifyAuthToken} from "./routes/auth";
 
-dotenv.config(); // Read the .env file in the current working directory, and load values into process.env.
+
+ // Read the .env file in the current working directory, and load values into process.env.
 const PORT = process.env.PORT || 3000;
 
 const staticDir = process.env.STATIC_DIR || "public";
@@ -30,7 +33,10 @@ async function setUpServer() {
         res.send("Hello, World");
     });
 
+    app.use("/api/*", verifyAuthToken);
+
     registerImageRoutes(app, mongoClient);
+    registerAuthRoutes(app, mongoClient);
 
     app.get("*", (req: Request, res: Response) => {
         console.log("none of the routes above me were matched");

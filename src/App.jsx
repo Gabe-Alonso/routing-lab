@@ -8,15 +8,6 @@ import {MainLayout} from "./MainLayout.jsx";
 import {useImageFetching} from "./images/useImageFetching.js";
 
 function App() {
-    const POSSIBLE_PAGES = [
-        <Homepage userName="John Doe" />,
-        <AccountSettings />,
-        <ImageGallery />,
-        <ImageDetails imageId="0" />
-    ];
-//images
-    //account
-
     const [username, setUsername] = useState("");
     function handleUsernameChange(event) {
         setUsername(event.target.value);
