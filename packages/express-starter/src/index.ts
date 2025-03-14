@@ -22,8 +22,9 @@ async function setUpServer() {
 
     const mongoClient = await MongoClient.connect(connectionString);
     const collectionInfos = await mongoClient.db().listCollections().toArray();
+    console.log("MongoDB backend stuff next up");
     console.log(collectionInfos.map(collectionInfo => collectionInfo.name)); // For debug only
-
+    console.log("MongoDB backend stuff done");
     const app = express();
 
     app.use(express.static(staticDir));

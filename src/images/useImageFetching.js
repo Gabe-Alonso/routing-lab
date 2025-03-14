@@ -33,18 +33,24 @@ const IMAGES = [
  * an array of ImageData
  *
  * @param imageId {string} the image ID to fetch, or all of them if empty string
+ * @param authToken
  * @param delay {number} the number of milliseconds fetching will take
  * @returns {{isLoading: boolean, fetchedImages: ImageData[]}} fetch state and data
  */
-export function useImageFetching(imageId, delay=1000) {
+export function useImageFetching(imageId, authToken, delay=1000) {
     const [isLoading, setIsLoading] = useState(true);
     const [fetchedImages, setFetchedImages] = useState([]);
     useEffect(() => {
         setTimeout(async () => {
+            console.log(authToken);
             const response = await fetch("/api/images", {
                 method: "GET",
-                headers: { "Content-Type": "application/json" }
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}` // ✅ Correct placement
+                }
             });
+
             console.log("GET called");
             const data = await response.json();
             console.log(data);
@@ -56,7 +62,7 @@ export function useImageFetching(imageId, delay=1000) {
             }
             setIsLoading(false);
         }, delay);
-    }, [imageId]);
+    }, [imageId, authToken]);
 
     return { isLoading, fetchedImages };
 }

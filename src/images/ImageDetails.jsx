@@ -2,10 +2,13 @@ import { MainLayout } from "../MainLayout.jsx";
 import { useImageFetching } from "./useImageFetching.js";
 import { useParams } from 'react-router';
 
-export function ImageDetails() {
+export function ImageDetails(props) {
     const {imageId} = useParams();
     console.log(imageId);
-    const { isLoading, fetchedImages } = useImageFetching(imageId, 500);
+    // eslint-disable-next-line react/prop-types
+    console.log("Image detailes authToken status: " , props.authToken);
+    // eslint-disable-next-line react/prop-types
+    const { isLoading, fetchedImages } = useImageFetching(imageId, props.authToken, 500);
 
     if (isLoading) {
         return <h2>Loading...</h2>;

@@ -39,6 +39,9 @@ export class CredentialsProvider {
     async verifyPassword(username: string, plaintextPassword: string) {
         const specifiedUser = await this.collection.findOne({ username: username });
         if (specifiedUser) {
+            console.log(specifiedUser);
+            console.log(plaintextPassword);
+            console.log(specifiedUser.password);
             const hashedPassword = specifiedUser.password;
             const match = await bcrypt.compare(plaintextPassword, hashedPassword);
             if (match) {

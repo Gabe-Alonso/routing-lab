@@ -10,7 +10,9 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false // (if your backend serves over HTTP, not HTTPS)
-      }
+      },
+      "/auth": "http://localhost:3000"
+
     }
   }
 });

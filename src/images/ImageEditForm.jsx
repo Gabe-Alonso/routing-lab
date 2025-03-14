@@ -8,7 +8,7 @@ export function ImageEditForm() {
     async function handleSubmit() {
         setIsLoading(true);
 
-        const response = await fetch(`/api/images/${imageId}`, {
+        await fetch(`/api/images/${imageId}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: imageName })

@@ -7,6 +7,7 @@ import {Link} from "react-router";
 export function ImageGallery(props) {
 
 
+    // eslint-disable-next-line react/prop-types
     const imageElements = props.fetchedImages.map((image) => (
         <div key={image._id} className="ImageGallery-photo-container">
             <Link to={"/images/" + image._id}>
@@ -17,6 +18,7 @@ export function ImageGallery(props) {
     return (
         <div>
             <h2>Image Gallery</h2>
+            {/* eslint-disable-next-line react/prop-types */}
             {props.isLoading && "Loading..."}
             <div className="ImageGallery">
                 {imageElements}

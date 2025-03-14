@@ -69,7 +69,8 @@ export function registerAuthRoutes(app: express.Application, mongoClient: MongoC
                     message: "Username already exist"
                 });
             }
-            res.status(201).send();
+            const token = await generateAuthToken(req.body.username);
+            res.status(200).send({ token: token });
 
         } catch (error) {
             console.error(error);
@@ -79,7 +80,8 @@ export function registerAuthRoutes(app: express.Application, mongoClient: MongoC
 
     app.post("/auth/login", async (req: Request, res: Response) => {
         try {
-            console.log("register request received");
+            console.log("login request received");
+            console.log(req.body.username, req.body.password);
             if (req.body.username == undefined || req.body.password == undefined) {
                 res.status(400).send({
                     error: "Bad request",
