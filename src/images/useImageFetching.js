@@ -47,7 +47,7 @@ export function useImageFetching(imageId, authToken, delay=1000) {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${authToken}` // ✅ Correct placement
+                    "Authorization": `Bearer ${authToken}`
                 }
             });
 

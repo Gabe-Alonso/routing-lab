@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { MongoClient } from "mongodb";
 import {Image, ImageProvider} from "../ImageProvider";
+import {handleImageFileErrors, imageMiddlewareFactory} from "../ImageUploadMiddleware";
 
 export function registerImageRoutes(app: express.Application, mongoClient: MongoClient) {
     app.get("/api/images", async (req: Request, res: Response) => { // Marking the callback as async
@@ -48,5 +49,41 @@ export function registerImageRoutes(app: express.Application, mongoClient: Mongo
             res.status(500).send("Internal Server Error");
         }
     });
+
+    app.post(
+        "/api/images",
+        imageMiddlewareFactory.single("image"), // Multer middleware
+        handleImageFileErrors, // Error handling middleware
+        async (req: Request, res: Response): Promise<void> => {
+            console.log("In post request", req.file, req.body);
+
+             if (!req.file || !req.body.title) {
+                res.status(400).json({
+                    error: "Bad Request",
+                    message: "Missing required fields: image and title."
+                });
+                return; // Explicitly return `void`
+            }
+
+            const _id = req.file.filename;
+            const src = `/uploads/${_id}`;
+            const name = req.body.title;
+            const author = res.locals.token.username;
+
+            console.log(_id, src, name, author);
+
+            const imageProvider = new ImageProvider(mongoClient);
+            console.log("creating image");
+            const imageAdded= await imageProvider.createImage(_id, src, name, author);
+
+
+            res.status(201).send();
+
+            return; // Ensure function returns `void`
+        }
+    );
+
+
+
 
 }

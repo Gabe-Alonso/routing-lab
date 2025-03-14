@@ -2,6 +2,7 @@ import { MainLayout } from "../MainLayout.jsx";
 import { useImageFetching } from "./useImageFetching.js";
 import "./ImageGallery.css";
 import {Link} from "react-router";
+import {ImageUploadForm} from "./ImageUploadForm.jsx";
 
 
 export function ImageGallery(props) {
@@ -23,6 +24,9 @@ export function ImageGallery(props) {
             <div className="ImageGallery">
                 {imageElements}
             </div>
+            <h3>Upload Image</h3>
+            {/* eslint-disable-next-line react/prop-types */}
+            <ImageUploadForm authToken={props.authToken}></ImageUploadForm>
         </div>
     );
 }

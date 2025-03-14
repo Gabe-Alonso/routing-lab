@@ -9,11 +9,18 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        secure: false // (if your backend serves over HTTP, not HTTPS)
+        secure: false // if your backend serves over HTTP, not HTTPS
       },
-      "/auth": "http://localhost:3000"
-
+      '/auth': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false
+      },
+      '/uploads': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false
+      }
     }
   }
 });
-
